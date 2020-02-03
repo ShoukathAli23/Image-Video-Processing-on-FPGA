@@ -1,3 +1,6 @@
+open in RAW or Blame  view
+
+
 --axi_master        axi_slave                           axi_master          axi_slave   
 ------------|       |----------------------------------------------|       |-----------
 --  tvalid--|--->---|--tvalid--->---|STD_FIFO_SGNL  |--->--tvalid--|--->---|--tvalid---    
