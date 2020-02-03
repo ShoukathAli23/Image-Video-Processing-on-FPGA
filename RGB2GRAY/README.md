@@ -1,4 +1,4 @@
-open in RAW or Blame view
+open in Raw or Blame view
 
 
 --axi_master        axi_slave                           axi_master          axi_slave   
