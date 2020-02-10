@@ -30,7 +30,6 @@ entity rgb2gray is
 		s00_axis_aresetn	: in std_logic;
 		s00_axis_tready	: out std_logic;
 		s00_axis_tdata	: in std_logic_vector(C_S00_AXIS_TDATA_WIDTH-1 downto 0);
-		s00_axis_tstrb	: in std_logic_vector((C_S00_AXIS_TDATA_WIDTH/8)-1 downto 0);
 		s00_axis_tlast	: in std_logic;
 		s00_axis_tvalid	: in std_logic;
         s00_axis_tuser  : in std_logic_vector(0 downto 0);
@@ -39,7 +38,6 @@ entity rgb2gray is
 		m00_axis_aresetn	: in std_logic;
 		m00_axis_tvalid	: out std_logic;
 		m00_axis_tdata	: out std_logic_vector(C_M00_AXIS_TDATA_WIDTH-1 downto 0);
-		m00_axis_tstrb	: out std_logic_vector((C_M00_AXIS_TDATA_WIDTH/8)-1 downto 0);
 		m00_axis_tlast	: out std_logic;
 		m00_axis_tready	: in std_logic;
 		m00_axis_tuser  : out std_logic_vector(0 downto 0)
@@ -80,7 +78,6 @@ component STD_FIFO_SGNL is
 	);
 end component STD_FIFO_SGNL;
 
-signal s_axis_tstrb: std_logic_vector(C_S00_AXIS_TDATA_WIDTH/8-1 downto 0);
 signal s_axis_tlast: std_logic;
 signal s_axis_tvalid, axis_tready: std_logic;
 signal s_axis_tuser: std_logic_vector(0 downto 0);
