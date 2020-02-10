@@ -82,7 +82,7 @@ end component STD_FIFO_SGNL;
 
 signal s_axis_tstrb: std_logic_vector(C_S00_AXIS_TDATA_WIDTH/8-1 downto 0);
 signal s_axis_tlast: std_logic;
-signal s_axis_tvalid: std_logic;
+signal s_axis_tvalid, axis_tready: std_logic;
 signal s_axis_tuser: std_logic_vector(0 downto 0);
 
 signal m_axis_tdata: std_logic_vector(C_S00_AXIS_TDATA_WIDTH-1 downto 0);
@@ -123,20 +123,6 @@ port map (
 		DataOut	=> s_axis_tlast
 );
 
-tstrb: STD_FIFO
-generic map (
-		DATA_WIDTH => C_S00_AXIS_TDATA_WIDTH/8,
-		FIFO_DEPTH	=> pipeline_length_aprox
-)
-port map (
-		CLK		=> s00_axis_aclk,
-		RST		=> s00_axis_aresetn,
-		WriteEn	=> s00_axis_tvalid,
-		DataIn	=> s00_axis_tstrb,
-		ReadEn	=> read_FIFO,
-		DataOut	=> s_axis_tstrb
-);
-
 tuser: STD_FIFO
 generic map (
 		DATA_WIDTH => 1,
@@ -151,13 +137,23 @@ port map (
 		DataOut	=> s_axis_tuser
 );
 
-
+process(s00_axis_aclk)
+begin
+if (rising_edge(s00_axis_aclk)) then
+    if (s00_axis_tvalid = '1' and s00_axis_tlast = '0') then
+        axis_tready <= '1';
+    elsif (s00_axis_tvalid = '1' and s00_axis_tlast = '1') then
+        axis_tready <= '0';
+    else 
+        axis_tready <= '0';
+    end if;
+end if;
+end process;
 
 --axi_master        axi_slave                           axi_master          axi_slave   
 ------------|       |----------------------------------------------|       |-----------
 --  tvalid--|--->---|--tvalid--->---|STD_FIFO_SGNL  |--->--tvalid--|--->---|--tvalid---    
 --  tdata---|--->---|--tdata---->---|data_pipeline  |--->--tdata---|--->---|--tdata----
---  tstrb---|--->---|--tstrb---->---|STD_FIFO       |--->--tstrb---|--->---|--tstrb----
 --  tlast---|--->---|--tlast---->---|STD_FIFO_SGNL  |--->--tlast---|--->---|--tlast----
 --          |       |                                              |       |           
 --  tready--|---<---|--tready---<-----------------------<--tready--|---<---|--tready---
@@ -229,14 +225,12 @@ if (rising_edge(m00_axis_aclk)) then
             m00_axis_tdata(23 downto 16) <= m_axis_tdata(7 downto 0);
             m00_axis_tdata(15 downto 8) <= m_axis_tdata(7 downto 0);
             m00_axis_tdata(7 downto 0) <= m_axis_tdata(7 downto 0);
---            m00_axis_tdata <= data4;
-            m00_axis_tstrb <= s_axis_tstrb;
+
             m00_axis_tlast <= s_axis_tlast;
             m00_axis_tvalid <= s_axis_tvalid;
             m00_axis_tuser <= s_axis_tuser;          
     else
             m00_axis_tdata <= (others => '0');
-            m00_axis_tstrb <= (others => '0');
             m00_axis_tlast <= '0';
             m00_axis_tvalid <= '0';
             m00_axis_tuser <= (others => '0');             
@@ -244,6 +238,6 @@ if (rising_edge(m00_axis_aclk)) then
 end if;      
 end process;
 
-s00_axis_tready <= m00_axis_tready;
+s00_axis_tready <= axis_tready;
 
 end arch_imp;
