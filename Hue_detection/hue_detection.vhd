@@ -5,19 +5,14 @@ use ieee.numeric_std.all;
 entity Colour_Filter_v1_0_AXIS is
 	generic (
 		-- Users to add parameters here
-        constant R_INDEX : integer := 0;
-        constant G_INDEX : integer := 1;
-        constant B_INDEX : integer := 2;
-        
-        constant RGB_PIPELINE_DEPTH : integer := 7;
-        constant DELTA_PIPELINE_DEPTH : integer := 5;
+        	C_S_AXI_DATA_WIDTH	: integer	:= 32;		
 		-- User parameters ends
 		-- Do not modify the parameters beyond this line
 
 
 		-- Parameters of Axi Slave Bus Interface S00_AXIS
 		C_S_AXIS_TDATA_WIDTH	: integer	:= 24;
-        C_S_AXI_DATA_WIDTH	: integer	:= 32;
+
 		-- Parameters of Axi Master Bus Interface M00_AXIS
 		C_M_AXIS_TDATA_WIDTH	: integer	:= 24;
 		C_M_AXIS_START_COUNT	: integer	:= 32
@@ -25,8 +20,8 @@ entity Colour_Filter_v1_0_AXIS is
 	port (
 		-- Users to add ports here
 		--mode         : in std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
-        lower_limit  : in std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
-        upper_limit  : in std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
+        	lower_limit  : in std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
+        	upper_limit  : in std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
 		-- User ports ends
 		-- Do not modify the ports beyond this line
 
@@ -255,9 +250,7 @@ end if;
 end process;
 
 -- stage 6
------------------- mode : 0 pass through
------------------- mode : 1 limits for red
------------------- mode : 2 limits for other colours
+
 process(M_AXIS_ACLK)
 begin
 if(rising_edge(M_AXIS_ACLK)) then
