@@ -2,10 +2,6 @@
 -- Title		: convolution
 -- Description 	: apply convolution on the streaming image pixel data
 
--- Name			: Shoukath Ali Mohammad
--- Title		: convolution
--- Description 	: apply convolution on the streaming image pixel data
-
 library IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.NUMERIC_STD.ALL;
