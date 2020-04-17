@@ -1,4 +1,4 @@
--- Name			: Jonas "https://vhdlwhiz.com/axi-fifo/"
+-- source to original repository		: Jonas "https://vhdlwhiz.com/axi-fifo/"
 -- Modified by  : Shoukath Ali Mohammad
 -- Title		: axi_fifo
 -- Description 	: controlles the communication between the image popeline and axi dma
