@@ -1,1 +1,1 @@
-![](/canny edge detection/canny.gif.gif)
+![](canny edge detection/canny.gif.gif)
