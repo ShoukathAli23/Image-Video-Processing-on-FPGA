@@ -1,1 +1,1 @@
-![](canny edge detection/canny.gif.gif)
+![home](canny edge detection/canny.gif.gif)
